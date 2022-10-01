@@ -11,7 +11,7 @@ class AdapterPoke : RecyclerView.Adapter<AdapterPoke.ViewHolderPoke>() {
     private var imageList : MutableList<String> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPoke {
-        val itemBinding = ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+        val itemBinding = ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolderPoke(itemBinding)
     }
 
@@ -31,7 +31,7 @@ class AdapterPoke : RecyclerView.Adapter<AdapterPoke.ViewHolderPoke>() {
     class ViewHolderPoke(val binding: ItemRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(pokeInfo: String) {
-            binding.name.text = pokeInfo
+            binding.tvName.text = pokeInfo
         }
 
     }
