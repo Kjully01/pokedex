@@ -1,4 +1,4 @@
-package br.com.pokedex.view.fragment
+package br.com.pokedex.presentation.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pokedex.databinding.FragmentMenuBinding
-import br.com.pokedex.view.adapter.AdapterPoke
+import br.com.pokedex.presentation.ui.adapter.PokeAdapter
 
 class MenuFragment : Fragment() {
 
     private var _binding: FragmentMenuBinding? = null
     private val binding: FragmentMenuBinding get() = _binding!!
 
-    private lateinit var adapterRecyclerView: AdapterPoke
+    private lateinit var adapterRecyclerView: PokeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +33,7 @@ class MenuFragment : Fragment() {
 
     private fun startAdapter() {
         binding.rvPoke.apply {
-            adapterRecyclerView = AdapterPoke()
+            adapterRecyclerView = PokeAdapter()
             layoutManager = LinearLayoutManager(context)
             adapter = adapterRecyclerView
         }
