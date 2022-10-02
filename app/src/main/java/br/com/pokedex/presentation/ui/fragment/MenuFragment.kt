@@ -1,13 +1,19 @@
 package br.com.pokedex.presentation.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.pokedex.data_remote.model.PokemonListResponse
+import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.databinding.FragmentMenuBinding
 import br.com.pokedex.presentation.ui.adapter.PokeAdapter
+import br.com.pokedex.presentation.viewmodel.PokeViewModel
 
 class MenuFragment : Fragment() {
 
@@ -15,6 +21,9 @@ class MenuFragment : Fragment() {
     private val binding: FragmentMenuBinding get() = _binding!!
 
     private lateinit var adapterRecyclerView: PokeAdapter
+    private lateinit var viewModel: PokeViewModel
+
+    //private lateinit var viewModel: PokeViewModel by ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +36,11 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(PokeViewModel::class.java)
+        viewModel.getPokemons()
+
+        observer()
         startAdapter()
-        setDataAdapter()
     }
 
     private fun startAdapter() {
@@ -39,17 +51,26 @@ class MenuFragment : Fragment() {
         }
     }
 
-    private fun setDataAdapter() {
-        adapterRecyclerView.setData(myList())
+    private fun setDataAdapter(list: List<PokemonResponse>) {
+        adapterRecyclerView.setData(list)
     }
-
-    private fun myList(): List<String> = listOf(
-        "Bulbassaur",
-        "Picachu"
-    )
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observer() {
+        viewModel.apply {
+            pokeSuccess.observe(viewLifecycleOwner, Observer{ pokeResponse ->
+                val pokeList = pokeResponse.pokemonResponses
+                setDataAdapter(pokeList)
+            })
+            error.observe(
+                viewLifecycleOwner, Observer {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 }

@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.databinding.ItemRecyclerViewBinding
 
 class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
 
-    private var imageList: MutableList<String> = arrayListOf()
+    private var pokeList: MutableList<PokemonResponse> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPoke {
         val itemBinding =
@@ -17,23 +18,23 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolderPoke, position: Int) {
-        holder.onBind(imageList[position])
+        holder.onBind(pokeList[position])
     }
 
-    override fun getItemCount(): Int = imageList.size
+    override fun getItemCount(): Int = pokeList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(imageListAux: List<String>) {
-        imageList.clear()
-        imageList.addAll(imageListAux)
+    fun setData(pokeListAux: List<PokemonResponse>) {
+        pokeList.clear()
+        pokeList.addAll(pokeListAux)
         notifyDataSetChanged()
     }
 
     class ViewHolderPoke(val binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(pokeInfo: String) {
-            binding.tvName.text = pokeInfo
+        fun onBind(pokeInfo: PokemonResponse) {
+            binding.tvName.text = pokeInfo.name
         }
 
     }
