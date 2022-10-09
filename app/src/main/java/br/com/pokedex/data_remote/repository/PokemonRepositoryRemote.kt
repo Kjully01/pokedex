@@ -1,6 +1,7 @@
 package br.com.pokedex.data_remote.repository
 
 import br.com.pokedex.data_remote.api.Api
+import br.com.pokedex.data_remote.model.PokemonApiResponse
 import br.com.pokedex.data_remote.model.PokemonListResponse
 import br.com.pokedex.data_remote.utils.ApiConstants
 import kotlinx.coroutines.flow.Flow
@@ -26,4 +27,18 @@ class PokemonRepositoryRemote {
         }
     }
 
+    suspend fun getPokemon(id: Int): Flow<PokemonApiResponse> {
+        return flow {
+            pokemonRoute.getPokemon(id)
+                .let { response ->
+                    if (response.isSuccessful) {
+                        response.body()
+                    } else {
+                        throw HttpException(response)
+                    }
+                }?.let {
+                    emit(it)
+                }
+        }
+    }
 }
