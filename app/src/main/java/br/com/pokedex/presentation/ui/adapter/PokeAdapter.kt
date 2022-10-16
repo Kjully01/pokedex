@@ -1,15 +1,17 @@
 package br.com.pokedex.presentation.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.databinding.ItemRecyclerViewBinding
+import br.com.pokedex.model.Pokemon
 
 class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
 
-    private var pokeList: MutableList<PokemonResponse> = arrayListOf()
+    private var pokeList: MutableList<Pokemon> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPoke {
         val itemBinding =
@@ -24,7 +26,7 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
     override fun getItemCount(): Int = pokeList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(pokeListAux: List<PokemonResponse>) {
+    fun setData(pokeListAux: List<Pokemon>) {
         pokeList.clear()
         pokeList.addAll(pokeListAux)
         notifyDataSetChanged()
@@ -33,8 +35,22 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
     class ViewHolderPoke(val binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(pokeInfo: PokemonResponse) {
-            binding.tvName.text = pokeInfo.name
+        fun onBind(pokeInfo: Pokemon) {
+
+            binding.apply {
+                idNumber.text = "# ${pokeInfo.formattedNumber}"
+                tvName.text = pokeInfo.name
+
+                tvType1.text = pokeInfo.types[0].name
+
+                if (pokeInfo.types.size > 1) {
+                    tvType2.visibility = View.VISIBLE
+                    tvType2.text = pokeInfo.types[1].name
+                } else {
+                    tvType2.visibility = View.GONE
+                }
+            }
+
         }
 
     }

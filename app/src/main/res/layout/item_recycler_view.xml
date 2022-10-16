@@ -36,7 +36,7 @@
             tools:text="Bulbasaur" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/type1"
+            android:id="@+id/tvType1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -50,7 +50,7 @@
             tools:text="Grass" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/type2"
+            android:id="@+id/tvType2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -59,8 +59,8 @@
             android:paddingVertical="4dp"
             android:textColor="@color/white"
             android:textSize="11sp"
-            app:layout_constraintStart_toEndOf="@id/type1"
-            app:layout_constraintTop_toTopOf="@id/type1"
+            app:layout_constraintStart_toEndOf="@id/tvType1"
+            app:layout_constraintTop_toTopOf="@id/tvType1"
             tools:text="Poison" />
 
         <androidx.appcompat.widget.AppCompatImageView
