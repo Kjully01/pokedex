@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.pokedex.databinding.ItemRecyclerViewBinding
 import br.com.pokedex.model.Pokemon
+import coil.load
+import kotlinx.android.synthetic.main.item_recycler_view.view.*
 
 class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
 
@@ -40,6 +42,7 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
             binding.apply {
                 idNumber.text = "# ${pokeInfo.formattedNumber}"
                 tvName.text = pokeInfo.name
+                imagePoke.load(pokeInfo.imageUrl)
 
                 tvType1.text = pokeInfo.types[0].name
 

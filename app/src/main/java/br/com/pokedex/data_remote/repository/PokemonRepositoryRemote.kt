@@ -3,14 +3,14 @@ package br.com.pokedex.data_remote.repository
 import br.com.pokedex.data_remote.api.Api
 import br.com.pokedex.data_remote.model.PokemonApiResponse
 import br.com.pokedex.data_remote.model.PokemonListResponse
-import br.com.pokedex.data_remote.utils.ApiConstants
+import br.com.pokedex.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 
 class PokemonRepositoryRemote {
 
-    private var pokemonRoute = Api(ApiConstants.BASE_URL).create()
+    private var pokemonRoute = Api(Constants.BASE_URL).create()
 
     suspend fun getPokemons(): Flow<PokemonListResponse> {
         return flow {
