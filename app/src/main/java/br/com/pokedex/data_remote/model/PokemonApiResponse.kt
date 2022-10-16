@@ -9,5 +9,5 @@ data class PokemonApiResponse (
     @SerializedName("name")
     val name: String,
     @SerializedName("types")
-    val types: List<PokemonType>
+    val types: List<PokemonTypeResponse>
 )

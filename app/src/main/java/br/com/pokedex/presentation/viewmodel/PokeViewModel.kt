@@ -11,6 +11,7 @@ import br.com.pokedex.data_remote.model.PokemonListResponse
 import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.data_remote.repository.PokemonRepositoryRemote
 import br.com.pokedex.model.Pokemon
+import br.com.pokedex.model.PokemonType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -56,7 +57,9 @@ class PokeViewModel : ViewModel() {
                                 pokeApiResponse.id,
                                 pokeApiResponse.name,
                                 pokeApiResponse.types.map { type ->
-                                    type
+                                    PokemonType(
+                                        type.type.name
+                                    )
                                 }
                             )
 
