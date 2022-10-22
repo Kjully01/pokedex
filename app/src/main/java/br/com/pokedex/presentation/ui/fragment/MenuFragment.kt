@@ -61,7 +61,13 @@ class MenuFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.itemFavorite -> {
-                Toast.makeText(requireContext(), "teste", Toast.LENGTH_SHORT).show()
+                if (item.isChecked){
+                    item.setIcon(R.drawable.ic_favorite_outline)
+                    item.isChecked = false
+                } else {
+                    item.setIcon(R.drawable.ic_favorite)
+                    item.isChecked = true
+                }
                 true
             }
             else -> false

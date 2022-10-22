@@ -40,7 +40,7 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
         fun onBind(pokeInfo: Pokemon) {
 
             binding.apply {
-                idNumber.text = "# ${pokeInfo.formattedNumber}"
+                idNumber.text = "#${pokeInfo.formattedNumber}"
                 tvName.text = pokeInfo.name
                 imagePoke.load(pokeInfo.imageUrl)
 
