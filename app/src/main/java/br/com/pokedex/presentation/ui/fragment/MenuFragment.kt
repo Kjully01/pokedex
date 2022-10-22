@@ -2,16 +2,17 @@ package br.com.pokedex.presentation.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.pokedex.R
 import br.com.pokedex.data_remote.model.PokemonApiResponse
 import br.com.pokedex.data_remote.model.PokemonListResponse
 import br.com.pokedex.data_remote.model.PokemonResponse
@@ -30,6 +31,12 @@ class MenuFragment : Fragment() {
 
     //private lateinit var viewModel: PokeViewModel by ViewModel
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,8 +51,26 @@ class MenuFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(PokeViewModel::class.java)
         viewModel.getPokemons()
 
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
         observer()
         startAdapter()
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.itemFavorite -> {
+                Toast.makeText(requireContext(), "teste", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun startAdapter() {

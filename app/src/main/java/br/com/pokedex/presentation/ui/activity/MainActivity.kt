@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import br.com.pokedex.R
 import br.com.pokedex.databinding.ActivityMainBinding
+import br.com.pokedex.presentation.ui.fragment.MenuFragment
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,6 +14,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
