@@ -68,15 +68,33 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@id/favorite"
+            app:layout_constraintEnd_toStartOf="@id/icFavorite"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/bulbasaur" />
 
+<!--        <Button-->
+<!--            android:id="@+id/favorite"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:background="@drawable/bg_ic_favorite"-->
+<!--            app:backgroundTint="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/favorite"
+            android:id="@+id/icFavorite"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_favorite"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icFavoriteOut"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_favorite_outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

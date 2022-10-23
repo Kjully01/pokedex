@@ -52,6 +52,16 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
                 } else {
                     tvType2.visibility = View.GONE
                 }
+
+                icFavorite.setOnClickListener {
+                    icFavoriteOut.visibility = View.VISIBLE
+                    icFavorite.visibility = View.INVISIBLE
+                }
+
+                icFavoriteOut.setOnClickListener {
+                    icFavorite.visibility = View.VISIBLE
+                    icFavoriteOut.visibility = View.INVISIBLE
+                }
             }
 
         }
