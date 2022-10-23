@@ -1,27 +1,22 @@
 package br.com.pokedex.presentation.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pokedex.R
-import br.com.pokedex.data_remote.model.PokemonApiResponse
-import br.com.pokedex.data_remote.model.PokemonListResponse
-import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.databinding.FragmentMenuBinding
 import br.com.pokedex.model.Pokemon
 import br.com.pokedex.presentation.ui.adapter.PokeAdapter
+import br.com.pokedex.presentation.ui.adapter.PokemonClickListener
 import br.com.pokedex.presentation.viewmodel.PokeViewModel
 
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(), PokemonClickListener {
 
     private var _binding: FragmentMenuBinding? = null
     private val binding: FragmentMenuBinding get() = _binding!!
@@ -80,8 +75,8 @@ class MenuFragment : Fragment() {
     }
 
     private fun startAdapter() {
+        adapterRecyclerView = PokeAdapter(this)
         binding.rvPoke.apply {
-            adapterRecyclerView = PokeAdapter()
             layoutManager = LinearLayoutManager(context)
             adapter = adapterRecyclerView
         }
@@ -89,6 +84,12 @@ class MenuFragment : Fragment() {
 
     private fun setDataAdapter(list: List<Pokemon>) {
         adapterRecyclerView.setData(list)
+    }
+
+    override fun onPokemonClickListener(pokemon: Pokemon) {
+        findNavController().navigate(
+            MenuFragmentDirections.actionMenuFragmentToPokemonFragment(pokemon.id)
+        )
     }
 
     private fun observer() {

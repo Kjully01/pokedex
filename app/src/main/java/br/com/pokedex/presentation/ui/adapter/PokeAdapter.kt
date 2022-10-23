@@ -11,14 +11,16 @@ import br.com.pokedex.model.Pokemon
 import coil.load
 import kotlinx.android.synthetic.main.item_recycler_view.view.*
 
-class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
+class PokeAdapter(
+    private val onPokemonClickListener: PokemonClickListener
+) : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
 
     private var pokeList: MutableList<Pokemon> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPoke {
         val itemBinding =
             ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolderPoke(itemBinding)
+        return ViewHolderPoke(itemBinding, onPokemonClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolderPoke, position: Int) {
@@ -34,8 +36,10 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolderPoke(val binding: ItemRecyclerViewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolderPoke(
+        private val binding: ItemRecyclerViewBinding,
+        private val onPokemonClickListener: PokemonClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(pokeInfo: Pokemon) {
 
@@ -61,6 +65,10 @@ class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolderPoke>() {
                 icFavoriteOut.setOnClickListener {
                     icFavorite.visibility = View.VISIBLE
                     icFavoriteOut.visibility = View.INVISIBLE
+                }
+
+                root.setOnClickListener {
+                    onPokemonClickListener.onPokemonClickListener(pokeInfo)
                 }
             }
 
