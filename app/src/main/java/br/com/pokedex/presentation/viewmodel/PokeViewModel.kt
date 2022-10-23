@@ -8,6 +8,7 @@ import br.com.pokedex.data_remote.model.PokemonApiResponse
 import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.data_remote.repository.PokemonRepositoryRemote
 import br.com.pokedex.model.Pokemon
+import br.com.pokedex.model.PokemonStat
 import br.com.pokedex.model.PokemonType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -59,6 +60,12 @@ class PokeViewModel : ViewModel() {
                                     PokemonType(
                                         type.type.name
                                     )
+                                },
+                                pokeApiResponse.stats.map { stat ->
+                                    PokemonStat(
+                                        stat.stat.name,
+                                        stat.baseState
+                                    )
                                 }
                             )
 
@@ -85,6 +92,12 @@ class PokeViewModel : ViewModel() {
                         pokeApiResponse.types.map { type ->
                             PokemonType(
                                 type.type.name
+                            )
+                        },
+                        pokeApiResponse.stats.map { stat ->
+                            PokemonStat(
+                                stat.stat.name,
+                                stat.baseState
                             )
                         }
                     )
