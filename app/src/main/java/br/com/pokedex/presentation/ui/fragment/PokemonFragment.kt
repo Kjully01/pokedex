@@ -44,7 +44,16 @@ class PokemonFragment : Fragment() {
     private fun setupView(pokemon: Pokemon) {
         binding.apply {
             imgPokemon.load(pokemon.imageUrl)
-            textTeste.text = args.id.toString()
+            tvName.text = pokemon.name
+
+            tvType1.text = pokemon.types[0].name
+
+            if (pokemon.types.size > 1) {
+                tvType2.visibility = View.VISIBLE
+                tvType2.text = pokemon.types[1].name
+            } else {
+                tvType2.visibility = View.GONE
+            }
         }
     }
 
