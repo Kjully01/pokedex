@@ -94,7 +94,7 @@ class MenuFragment : Fragment(), PokemonClickListener {
 
     private fun observer() {
         viewModel.apply {
-            pokeSuccess.observe(viewLifecycleOwner, Observer { pokemonsResponse ->
+            pokemonsSuccess.observe(viewLifecycleOwner, Observer { pokemonsResponse ->
                 setDataAdapter(pokemonsResponse)
             })
             error.observe(

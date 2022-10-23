@@ -1,13 +1,10 @@
 package br.com.pokedex.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pokedex.data_remote.model.PokemonApiResponse
-import br.com.pokedex.data_remote.model.PokemonListResponse
 import br.com.pokedex.data_remote.model.PokemonResponse
 import br.com.pokedex.data_remote.repository.PokemonRepositoryRemote
 import br.com.pokedex.model.Pokemon
@@ -15,14 +12,16 @@ import br.com.pokedex.model.PokemonType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PokeViewModel : ViewModel() {
 
     private val repository: PokemonRepositoryRemote = PokemonRepositoryRemote()
 
-    private val _pokeSuccess: MutableLiveData<List<Pokemon>> = MutableLiveData()
-    val pokeSuccess: LiveData<List<Pokemon>> = _pokeSuccess
+    private val _pokemonsSuccess: MutableLiveData<List<Pokemon>> = MutableLiveData()
+    val pokemonsSuccess: LiveData<List<Pokemon>> = _pokemonsSuccess
+
+    private val _pokemonSuccess: MutableLiveData<Pokemon> = MutableLiveData()
+    val pokemonSuccess: LiveData<Pokemon> = _pokemonSuccess
 
     lateinit var pokeApiResponse: PokemonApiResponse
 
@@ -65,9 +64,32 @@ class PokeViewModel : ViewModel() {
 
                         }
 
-                        _pokeSuccess.postValue(pokemons)
+                        _pokemonsSuccess.postValue(pokemons)
                     }
 
+                }
+        }
+    }
+
+    fun getPokemon(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getPokemon(id)
+                .catch { exception ->
+                    _error.postValue(exception.message)
+                }.collect {
+                    pokeApiResponse = it
+
+                    val pokemon = Pokemon(
+                        pokeApiResponse.id,
+                        pokeApiResponse.name,
+                        pokeApiResponse.types.map { type ->
+                            PokemonType(
+                                type.type.name
+                            )
+                        }
+                    )
+
+                    _pokemonSuccess.postValue(pokemon)
                 }
         }
     }
