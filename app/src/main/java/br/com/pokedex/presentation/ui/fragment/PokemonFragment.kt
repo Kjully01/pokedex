@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import br.com.pokedex.R
-import br.com.pokedex.data_remote.model.PokemonApiResponse
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pokedex.databinding.FragmentPokemonBinding
 import br.com.pokedex.model.Pokemon
+import br.com.pokedex.model.PokemonStat
+import br.com.pokedex.presentation.ui.adapter.DetailsAdapter
+import br.com.pokedex.presentation.ui.adapter.PokeAdapter
 import br.com.pokedex.presentation.viewmodel.PokeViewModel
 import coil.load
 
@@ -22,6 +24,7 @@ class PokemonFragment : Fragment() {
 
     private val args: PokemonFragmentArgs by navArgs()
 
+    private lateinit var adapterRecyclerView: DetailsAdapter
     private lateinit var viewModel: PokeViewModel
 
     override fun onCreateView(
@@ -55,12 +58,27 @@ class PokemonFragment : Fragment() {
                 tvType2.visibility = View.GONE
             }
         }
+
+        startAdapter()
+    }
+
+    private fun startAdapter() {
+        adapterRecyclerView = DetailsAdapter()
+        binding.bottomSheetInfo.rvPoke.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterRecyclerView
+        }
+    }
+
+    private fun setDataAdapter(list: List<PokemonStat>) {
+        adapterRecyclerView.setData(list)
     }
 
     private fun observer() {
         viewModel.apply {
             pokemonSuccess.observe(viewLifecycleOwner, Observer {
                 setupView(it)
+                setDataAdapter(it.stats)
             })
         }
     }
