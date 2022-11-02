@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pokedex.databinding.FragmentPokemonBinding
@@ -57,6 +61,10 @@ class PokemonFragment : Fragment() {
             } else {
                 tvType2.visibility = View.GONE
             }
+            
+            btnClose.setOnClickListener {
+                requireActivity().onBackPressed()
+            }
         }
 
         startAdapter()
@@ -81,5 +89,10 @@ class PokemonFragment : Fragment() {
                 setDataAdapter(it.stats)
             })
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
