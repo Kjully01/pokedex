@@ -61,7 +61,7 @@ class PokemonFragment : Fragment() {
             } else {
                 tvType2.visibility = View.GONE
             }
-            
+
             btnClose.setOnClickListener {
                 requireActivity().onBackPressed()
             }

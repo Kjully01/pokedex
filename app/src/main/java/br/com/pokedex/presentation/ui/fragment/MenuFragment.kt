@@ -56,7 +56,7 @@ class MenuFragment : Fragment(), PokemonClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.itemFavorite -> {
-                if (item.isChecked){
+                if (item.isChecked) {
                     item.setIcon(R.drawable.ic_favorite_outline)
                     item.isChecked = false
                 } else {
