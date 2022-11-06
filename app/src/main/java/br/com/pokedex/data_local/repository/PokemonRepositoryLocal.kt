@@ -12,11 +12,15 @@ class PokemonRepositoryLocal(private val pokemonDAO: PokemonDAO) {
         pokemonDAO.addFavoritePokemon(pokemon)
     }
 
-    suspend fun deleteFavoriteAnimal(pokemon: PokemonLocal) {
+    suspend fun deleteFavoritePokemon(pokemon: PokemonLocal) {
         pokemonDAO.deleteFavoritePokemon(pokemon)
     }
 
     suspend fun listAllFavoritePokemons(): List<PokemonLocal>{
         return pokemonDAO.listAllFavoritePokemons()
+    }
+
+    fun searchPokemon(id: Int): Int {
+        return pokemonDAO.searchPokemon(id)
     }
 }

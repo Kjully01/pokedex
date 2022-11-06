@@ -7,7 +7,7 @@ data class Pokemon(
     val name: String,
     val types: List<PokemonType>,
     val stats: List<PokemonStat>,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ) {
     val formattedNumber = id.toString().padStart(3, '0')
 

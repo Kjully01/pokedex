@@ -92,6 +92,19 @@ class MenuFragment : Fragment(), PokemonClickListener {
         )
     }
 
+//    private fun onFavoriteAnimal(animalResponse: AnimalResponse){
+//        if(animalResponse.name?.isNotEmpty() == true){
+//            viewModel.clickOnFavoriteAnimal(animalResponse)
+//        } else {
+//            Toast.makeText(requireContext(), "Erro ao favoritar esse animal", Toast.LENGTH_LONG).show()
+//        }
+//
+//    }
+
+    override fun onFavoriteClickListener(pokemon: Pokemon) {
+        viewModel.addOrDeletePokemon(pokemon)
+    }
+
     private fun observer() {
         viewModel.apply {
             pokemonsSuccess.observe(viewLifecycleOwner, Observer { pokemonsResponse ->

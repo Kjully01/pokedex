@@ -1,8 +1,10 @@
 package br.com.pokedex.presentation.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import br.com.pokedex.data_local.PokemonDatabase
+import br.com.pokedex.data_local.model.PokemonLocal
 import br.com.pokedex.data_local.repository.PokemonRepositoryLocal
 import br.com.pokedex.data_remote.model.PokemonApiResponse
 import br.com.pokedex.data_remote.repository.PokemonRepositoryRemote
@@ -39,7 +41,6 @@ class PokeViewModel(application: Application) : AndroidViewModel(application) {
 //        readPokemonFavorite = repositoryLocal.readPokemonFavorite
     }
 
-
     fun getPokemons() {
         viewModelScope.launch(Dispatchers.IO) {
             repositoryRemote.getPokemons()
@@ -47,9 +48,11 @@ class PokeViewModel(application: Application) : AndroidViewModel(application) {
                     _error.postValue(exception.message)
                 }.collect {
 
-                    it.pokemonResponses.let {
+                    val pokemons = repositoryLocal.listAllFavoritePokemons()
 
-                        val pokemons: List<Pokemon> = it.map { pokemonResult ->
+                    it.pokemonResponses.let { listPokemon ->
+
+                        val pokemons: List<Pokemon> = listPokemon.map { pokemonResult ->
 
                             val id =
                                 pokemonResult.url
@@ -64,6 +67,15 @@ class PokeViewModel(application: Application) : AndroidViewModel(application) {
                                 }
 
                             val pokemon = mapPokemon()
+
+                            val pokemonExist = pokemons.find { pokemonLocal ->
+                                pokemonLocal.id == pokemon.id
+                            }
+
+                            if (pokemonExist != null){
+                                pokemon.isFavorite = true
+                            }
+
                             pokemon
 
                         }
@@ -90,6 +102,31 @@ class PokeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun addOrDeletePokemon(pokemon: Pokemon) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val idPokemon = repositoryLocal.searchPokemon(pokemon.id)
+            val pokeLocal = mapPokemonLocal(pokemon)
+
+            if(pokemon.id == idPokemon){
+                deleteFavoritePokemon(pokeLocal)
+            } else {
+                addFavoritePokemon(pokeLocal)
+            }
+        }
+    }
+
+    private fun addFavoritePokemon(pokemon: PokemonLocal) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryLocal.addFavoritePokemon(pokemon)
+        }
+    }
+
+    fun deleteFavoritePokemon(pokemon: PokemonLocal) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryLocal.deleteFavoritePokemon(pokemon)
+        }
+    }
+
     private fun mapPokemon(): Pokemon {
         val pokemon = Pokemon(
             pokeApiResponse.id,
@@ -105,6 +142,16 @@ class PokeViewModel(application: Application) : AndroidViewModel(application) {
                     stat.baseState
                 )
             }
+        )
+        return pokemon
+    }
+
+    private fun mapPokemonLocal(poke: Pokemon): PokemonLocal {
+        val pokemon = PokemonLocal(
+            poke.id,
+            poke.name,
+//            poke.types,
+//            poke.stats,
         )
         return pokemon
     }

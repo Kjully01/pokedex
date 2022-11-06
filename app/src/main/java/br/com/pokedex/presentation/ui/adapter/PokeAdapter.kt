@@ -57,12 +57,19 @@ class PokeAdapter(
                     tvType2.visibility = View.GONE
                 }
 
-                icFavorite.setOnClickListener {
+                if (pokeInfo.isFavorite) {
+                    icFavorite.visibility = View.VISIBLE
+                    icFavoriteOut.visibility = View.INVISIBLE
+                }
+
+                root.icFavorite.setOnClickListener {
+                    onPokemonClickListener.onFavoriteClickListener(pokeInfo)
                     icFavoriteOut.visibility = View.VISIBLE
                     icFavorite.visibility = View.INVISIBLE
                 }
 
-                icFavoriteOut.setOnClickListener {
+                root.icFavoriteOut.setOnClickListener {
+                    onPokemonClickListener.onFavoriteClickListener(pokeInfo)
                     icFavorite.visibility = View.VISIBLE
                     icFavoriteOut.visibility = View.INVISIBLE
                 }
@@ -70,6 +77,7 @@ class PokeAdapter(
                 root.setOnClickListener {
                     onPokemonClickListener.onPokemonClickListener(pokeInfo)
                 }
+
             }
 
         }
